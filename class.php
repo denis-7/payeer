@@ -4,7 +4,6 @@ class Api_Trade_Payeer
     private $arParams = array();
     private $arError = array();
 
-
     public function __construct($params = array())
     {
         $this->arParams = $params;
