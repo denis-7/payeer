@@ -1,0 +1,22 @@
+{
+    "name": "denis-7/payeer",
+    "description": "Payeer Trade API",
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "symfony/http-client": "^6.0"
+    },
+    "authors": [
+        {
+            "name": "Denis V. Pripisnov",
+            "email": "denis@kmtn.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Payree\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "version": "0.0.1",
+    "minimum-stability": "dev"
+}
