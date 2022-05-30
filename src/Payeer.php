@@ -4,6 +4,8 @@ namespace Payeer;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 use Payeer\Exception\PayeerHttpException;
 
 class Payeer implements PayeerInterface {
@@ -16,7 +18,7 @@ class Payeer implements PayeerInterface {
     /**
      * @var HttpClientInterface
      */
-    private $_client;
+    private HttpClientInterface $_client;
 
     /**
      * @var string
@@ -37,10 +39,7 @@ class Payeer implements PayeerInterface {
     {
         $this->_params = $params;
         $this->_client = HttpClient::create([
-            'base_uri' => PayeerInterface::BASEURL,
-            'headers' => [
-                'Content-Type' => 'application/json'
-            ]
+            'base_uri' => PayeerInterface::BASEURL
         ]);
     }
 
@@ -55,14 +54,16 @@ class Payeer implements PayeerInterface {
         $post = $req->post;
         $post['ts'] = round(microtime(true) * PayeerInterface::MSEC);
         $post_json = json_encode($post);
-        $this->_sign = hash_hmac(PayeerInterface::HASHALG, $req->method . $post_json, $this->_params['key']);
-        $this->_client->withOptions([
-            'headers' => [
-                'API-ID' => $this->_params['id'],
-                'API-SIGN' => $this->_sign
-            ]
+        $this->_sign = hash_hmac(PayeerInterface::HASHALG, $req->url . $post_json, $this->_params['key']);
+        $headers = [
+            'Content-Type' => 'application/json',
+            'API-SIGN' => $this->_sign,
+            'API-ID' => $this->_params['id']
+        ];
+        $response = $this->_client->request($req->method, PayeerInterface::APIURL . $req->url, [
+            'headers' => $headers,
+            'body' => $post_json
         ]);
-        $response = $this->_client->request($req->method, PayeerInterface::APIURL . $req->url);
         $arResponse = $response->toArray();
         if ($arResponse['success'] !== true)
         {
@@ -238,7 +239,7 @@ class Payeer implements PayeerInterface {
             ->url('my_trades')
             ->post($req);
         $response = $this->_request($options);
-        return $response['items'];
+        return $response;
     }
 }
 
