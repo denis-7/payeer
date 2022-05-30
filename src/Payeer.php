@@ -227,6 +227,19 @@ class Payeer implements PayeerInterface {
         $response = $this->_request($options);
         return $response['items'];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function myTrades(array $req): array
+    {
+        $options = PayeerRequestOptions::create()
+            ->method('POST')
+            ->url('my_trades')
+            ->post($req);
+        $response = $this->_request($options);
+        return $response['items'];
+    }
 }
 
 ?>

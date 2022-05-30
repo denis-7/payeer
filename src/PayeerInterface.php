@@ -112,4 +112,12 @@ interface PayeerInterface
      */
     public function myHistory(array $req): array;
 
+    /**
+     * Получение своих сделок с возможностью фильтрации и постраничной загрузки.
+     *
+     * @param array $req
+     * @return array список сделок
+     */
+    public function myTrades(array $req): array;
+
 }
