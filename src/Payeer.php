@@ -4,8 +4,6 @@ namespace Payeer;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Component\Mime\Part\DataPart;
-use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 use Payeer\Exception\PayeerHttpException;
 
 class Payeer implements PayeerInterface {
