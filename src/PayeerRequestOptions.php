@@ -47,7 +47,7 @@ class PayeerRequestOptions {
      * @param mixed $value
      * @return PayeerRequestOptions
      */
-    public function post($value = '')
+    public function post($value)
     {
         if (is_array($value))
         {

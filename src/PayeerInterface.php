@@ -68,16 +68,48 @@ interface PayeerInterface
     /**
      * Проверка соединения, получение времени сервера.
      *
-     * @return int
+     * @return int timestamp сервера
      */
     public function time(): int;
 
     /**
      * Получение статистики цен и их колебания за последние 24 часа.
      *
-     * @return array
+     * @param string $pair
+     * @return array список пар
      */
     public function ticker(string $pair = PayeerInterface::DEFPAIR): array;
 
-    
+    /**
+     * Получение истории сделок по указанным парам.
+     *
+     * @param string $pair
+     * @return array список пар
+     */
+    public function trades(string $pair = PayeerInterface::DEFPAIR): array;
+
+    /**
+     * Отмена своего ордера по его id.
+     *
+     * @param array $req 
+     * @return boolean признак успешности запроса (true|false) 
+     */
+    public function orderCancel(array $req): array;
+
+    /**
+     * Отмена всех/части своих ордеров.
+     *
+     * @param array $req
+     * @return array список отмененных ордеров
+     */
+    public function ordersCancel(array $req): array;
+
+    /**
+     * Получение истории своих ордеров с возможностью фильтрации и постраничной загрузки.
+     *
+     * @param array $req
+     * @return array список ордеров
+     */
+    public function myHistory(array $req): array;
+
 }

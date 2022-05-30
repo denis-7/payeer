@@ -21,7 +21,7 @@ class Payeer implements PayeerInterface {
     /**
      * @var string
      */
-    private string $_arError;
+    private array $_arError;
 
     /**
      * @var string
@@ -161,8 +161,7 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('time')
-            ->post();
+            ->url('time');
         $response = $this->_request($options);
         return $response['time'];
     }
@@ -174,10 +173,59 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('ticker')
-            ->post();
+            ->url('ticker');
         $response = $this->_request($options);
         return $response['pairs'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function trades(string $pair = PayeerInterface::DEFPAIR): array
+    {
+        $options = PayeerRequestOptions::create()
+            ->method('POST')
+            ->url('trades');
+        $response = $this->_request($options);
+        return $response['pairs'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function orderCancel(array $req): array
+    {
+        $options = PayeerRequestOptions::create()
+            ->method('POST')
+            ->url('order_cancel')
+            ->post($req);
+        return $this->_request($options);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function ordersCancel(array $req): array
+    {
+        $options = PayeerRequestOptions::create()
+            ->method('POST')
+            ->url('orders_cancel')
+            ->post($req);
+        $response = $this->_request($options);
+        return $response['items'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function myHistory(array $req): array
+    {
+        $options = PayeerRequestOptions::create()
+            ->method('POST')
+            ->url('my_history')
+            ->post($req);
+        $response = $this->_request($options);
+        return $response['items'];
     }
 }
 
