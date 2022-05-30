@@ -64,4 +64,20 @@ interface PayeerInterface
      * @return array
      */
     public function myOrders(array $req): array;
+
+    /**
+     * Проверка соединения, получение времени сервера.
+     *
+     * @return int
+     */
+    public function time(): int;
+
+    /**
+     * Получение статистики цен и их колебания за последние 24 часа.
+     *
+     * @return array
+     */
+    public function ticker(string $pair = PayeerInterface::DEFPAIR): array;
+
+    
 }

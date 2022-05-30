@@ -153,6 +153,32 @@ class Payeer implements PayeerInterface {
         $response = $this->_request($options);
         return $response['items'];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function time(): int
+    {
+        $options = PayeerRequestOptions::create()
+            ->method('POST')
+            ->url('time')
+            ->post();
+        $response = $this->_request($options);
+        return $response['time'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function ticker(string $pair = PayeerInterface::DEFPAIR): array
+    {
+        $options = PayeerRequestOptions::create()
+            ->method('POST')
+            ->url('ticker')
+            ->post();
+        $response = $this->_request($options);
+        return $response['pairs'];
+    }
 }
 
 ?>
