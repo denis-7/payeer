@@ -6,7 +6,7 @@ class PayeerRequestOptions {
 
     public $method = '';
     public $post = [];
-    public $url = '';
+    public $action = '';
     
     /**
      * Create object
@@ -37,7 +37,19 @@ class PayeerRequestOptions {
      */
     public function url($value)
     {
-        $this->url = $value;
+        $this->action = $value;
+        return $this;
+    }
+
+    /**
+     * Specifying action on API server
+     *
+     * @param string $value
+     * @return PayeerRequestOptions
+     */
+    public function action($value)
+    {
+        $this->action = $value;
         return $this;
     }
 

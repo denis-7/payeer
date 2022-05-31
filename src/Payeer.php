@@ -52,13 +52,13 @@ class Payeer implements PayeerInterface {
         $post = $req->post;
         $post['ts'] = round(microtime(true) * PayeerInterface::MSEC);
         $post_json = json_encode($post);
-        $this->_sign = hash_hmac(PayeerInterface::HASHALG, $req->url . $post_json, $this->_params['key']);
+        $this->_sign = hash_hmac(PayeerInterface::HASHALG, $req->action . $post_json, $this->_params['key']);
         $headers = [
             'Content-Type' => 'application/json',
             'API-SIGN' => $this->_sign,
             'API-ID' => $this->_params['id']
         ];
-        $response = $this->_client->request($req->method, PayeerInterface::APIURL . $req->url, [
+        $response = $this->_client->request($req->method, PayeerInterface::APIURL . $req->action, [
             'headers' => $headers,
             'body' => $post_json
         ]);
@@ -78,7 +78,7 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('orders')
+            ->action('orders')
             ->post(['pair' => $pair]);
         $response = $this->_request($options);
         return $response['pairs'];
@@ -91,7 +91,7 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('order_create')
+            ->action('order_create')
             ->post($req);
         return $this->_request($options);
     }
@@ -111,7 +111,7 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('info');
+            ->action('info');
         return $this->_request($options);
     }
 
@@ -122,7 +122,7 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('account');
+            ->action('account');
         $response = $this->_request($options);
         return $response['balances'];
     }
@@ -134,7 +134,7 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('order_status')
+            ->action('order_status')
             ->post($req);
         $response = $this->_request($options);
         return $response['order'];
@@ -147,7 +147,7 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('my_orders')
+            ->action('my_orders')
             ->post($req);
         $response = $this->_request($options);
         return $response['items'];
@@ -160,7 +160,7 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('time');
+            ->action('time');
         $response = $this->_request($options);
         return $response['time'];
     }
@@ -172,7 +172,8 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('ticker');
+            ->action('ticker')
+            ->post(['pair' => $pair]);
         $response = $this->_request($options);
         return $response['pairs'];
     }
@@ -184,7 +185,8 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('trades');
+            ->action('trades')
+            ->post(['pair' => $pair]);
         $response = $this->_request($options);
         return $response['pairs'];
     }
@@ -196,7 +198,7 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('order_cancel')
+            ->action('order_cancel')
             ->post($req);
         return $this->_request($options);
     }
@@ -208,10 +210,10 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('orders_cancel')
+            ->action('orders_cancel')
             ->post($req);
         $response = $this->_request($options);
-        return $response['items'];
+        return $response;
     }
 
     /**
@@ -221,10 +223,10 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('my_history')
+            ->action('my_history')
             ->post($req);
         $response = $this->_request($options);
-        return $response['items'];
+        return $response;
     }
 
     /**
@@ -234,7 +236,7 @@ class Payeer implements PayeerInterface {
     {
         $options = PayeerRequestOptions::create()
             ->method('POST')
-            ->url('my_trades')
+            ->action('my_trades')
             ->post($req);
         $response = $this->_request($options);
         return $response;
