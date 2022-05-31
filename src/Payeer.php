@@ -99,7 +99,7 @@ class Payeer implements PayeerInterface {
     /**
      * {@inheritdoc}
      */
-    public function getError(): string
+    public function getError(): array
     {
         return $this->_arError;
     }

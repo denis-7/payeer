@@ -31,9 +31,9 @@ interface PayeerInterface
     /**
      * Получение ошибки в результате обращения к API
      *
-     * @return string
+     * @return array
      */
-    public function getError(): string;
+    public function getError(): array;
 
     /**
      * Получение лимитов, доступных пар и их параметров.
